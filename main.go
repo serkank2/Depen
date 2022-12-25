@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"depen/config"
+	"depen/routers"
+	"github.com/gofiber/fiber/v2"
+)
 
 func main() {
-	fmt.Println("Development started")
+	config.Env()
+	app := fiber.New()
+
+	routers.Router(app)
+
+	app.Listen(":" + config.GetPort())
 }
