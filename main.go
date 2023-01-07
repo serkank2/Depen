@@ -1,16 +1,13 @@
 package main
 
 import (
-	"depen/config"
-	"depen/routers"
+	router "depen/router"
+
 	"github.com/gofiber/fiber/v2"
 )
 
 func main() {
-	config.Env()
 	app := fiber.New()
-
-	routers.Router(app)
-
-	app.Listen(":" + config.GetPort())
+	router.UserRouter(app)
+	app.Listen(":8080")
 }
