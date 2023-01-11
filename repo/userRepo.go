@@ -58,7 +58,7 @@ func (u *UserRepo) LoginUser(model *model.LoginUser) *dto.UserLoginDto {
 		return &dto.UserLoginDto{
 			HttpStatusCode: http.StatusBadRequest,
 			Errors:         []string{"User not found"},
-			Data:           nil,
+			Data:           dto.UserLoginData{},
 			Login:          "failed",
 		}
 	}
@@ -66,17 +66,17 @@ func (u *UserRepo) LoginUser(model *model.LoginUser) *dto.UserLoginDto {
 		return &dto.UserLoginDto{
 			HttpStatusCode: http.StatusBadRequest,
 			Errors:         []string{err.Error()},
-			Data:           nil,
+			Data:           dto.UserLoginData{},
 			Login:          "failed",
 		}
 	}
 	return &dto.UserLoginDto{
 		HttpStatusCode: http.StatusOK,
 		Errors:         nil,
-		Login:          "Login success",
-		Data: bson.M{
-			"Email":    user.Email,
-			"CretedAt": user.Created_at,
+		Login:          "success",
+		Data: dto.UserLoginData{
+			Email:    user.Email,
+			CretedAt: user.Created_at,
 		},
 	}
 }

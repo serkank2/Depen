@@ -1,6 +1,8 @@
 package services
 
 import (
+	"depen/auth"
+	"depen/config"
 	"depen/dto"
 	"depen/model"
 	"depen/repo"
@@ -40,10 +42,26 @@ func (u *UserServices) LoginUser(model *model.LoginUser) *dto.UserLoginDto {
 		return &dto.UserLoginDto{
 			HttpStatusCode: http.StatusBadRequest,
 			Errors:         errMessage,
-			Data:           nil,
+			Data:           dto.UserLoginData{},
 		}
 	}
 	result := u.userRepo.LoginUser(model)
+	if result.Login == "success" {
+		accessToken, _ := auth.CreateToken(result.Data.Email)
+		result.AccessToken = accessToken
+		refreshToken, _ := auth.CreateToken(result.Data.Email)
+		result.RefreshToken = refreshToken
+		//Redis Create model
+		UserLoginRedis := dto.UserLoginRedis{
+			Email:        result.Data.Email,
+			AccessToken:  result.AccessToken,
+			RefreshToken: result.RefreshToken,
+		}
+		//Redis Create model
+		resultCreateToken := config.SetCache(result.Data.Email, UserLoginRedis)
+		result.Data.TokenStatus = resultCreateToken
+
+	}
 	return result
 
 }
