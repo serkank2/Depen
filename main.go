@@ -4,7 +4,7 @@ import (
 	"depen/config"
 	"depen/handler"
 	"depen/repo"
-	router "depen/router"
+	"depen/router"
 	"depen/services"
 
 	"github.com/gofiber/fiber/v2"
