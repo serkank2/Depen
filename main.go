@@ -16,8 +16,8 @@ func main() {
 
 	// ----------------- User -----------------
 
-	userCollection := config.GetCollection(config.DB, "user") // create collection
-	UserRepo := repo.NewUserRepo(userCollection)              // create repo
+	UserCollection := config.GetCollection(config.DB, "user") // create collection
+	UserRepo := repo.NewUserRepo(UserCollection)              // create repo
 	UserServices := services.NewUserServices(UserRepo)        // create services
 	UserHandler := handler.NewUserHandler(UserServices)       // create handler
 	router.UserRouter(app, UserHandler)                       // create router
@@ -26,3 +26,7 @@ func main() {
 
 	app.Listen(":8080")
 }
+
+// GetREdis DAta işlemleri yapılacak
+// tokenlar oluşturuldu
+// db ve redis yakıtları tamamlandı

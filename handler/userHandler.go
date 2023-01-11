@@ -13,14 +13,25 @@ type UserHandler struct {
 
 func (u *UserHandler) RegisterUser(c *fiber.Ctx) error {
 	var model model.RegisterUser
-	c.BodyParser(&model)
+	err := c.BodyParser(&model)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"message": "Body Parse Error",
+		})
+	}
 	result := u.UserServices.RegisterUser(&model)
-	return c.Status(200).JSON(result)
+	return c.Status(result.HttpStatusCode).JSON(result)
 }
 func (u *UserHandler) LoginUser(c *fiber.Ctx) error {
-	return c.Status(200).JSON(fiber.Map{
-		"message": "Login User",
-	})
+	var model model.LoginUser
+	err := c.BodyParser(&model)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"message": "Body Parse Error",
+		})
+	}
+	result := u.UserServices.LoginUser(&model)
+	return c.Status(result.HttpStatusCode).JSON(result)
 }
 
 func NewUserHandler(userServices *services.UserServices) *UserHandler {
