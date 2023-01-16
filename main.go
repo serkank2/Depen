@@ -30,3 +30,4 @@ func main() {
 // GetREdis DAta işlemleri yapılacak
 // tokenlar oluşturuldu
 // db ve redis yakıtları tamamlandı
+// control
